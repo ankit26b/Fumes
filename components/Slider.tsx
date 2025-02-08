@@ -2,12 +2,23 @@
 
 import * as RadixSlider from "@radix-ui/react-slider";
 
-interface SlideProps {
+interface SliderProps {
   value?: number;
   onChange?: (value: number) => void;
+  min?: number;
+  max?: number;
+  step?: number;
+  ariaLabel?: string;
 }
 
-const Slider: React.FC<SlideProps> = ({ value = 1, onChange }) => {
+const Slider: React.FC<SliderProps> = ({ 
+  value = 1, 
+  onChange,
+  min = 0,
+  max = 1,
+  step = 0.1,
+  ariaLabel = "Volume"
+}) => {
   const handleChange = (newValue: number[]) => {
     onChange?.(newValue[0]);
   };
@@ -23,12 +34,12 @@ const Slider: React.FC<SlideProps> = ({ value = 1, onChange }) => {
         w-full 
         h-10
       "
-      defaultValue={[1]}
       value={[value]}
       onValueChange={handleChange}
-      max={1}
-      step={0.1}
-      aria-label="Volume"
+      min={min}
+      max={max}
+      step={step}
+      aria-label={ariaLabel}
     >
       <RadixSlider.Track
         className="
@@ -48,6 +59,20 @@ const Slider: React.FC<SlideProps> = ({ value = 1, onChange }) => {
           "
         />
       </RadixSlider.Track>
+      <RadixSlider.Thumb
+        className="
+          block
+          w-3
+          h-3
+          bg-white
+          rounded-full
+          shadow-lg
+          focus:outline-none
+          focus:shadow-black
+          hover:bg-neutral-200
+          transition-colors
+        "
+      />
     </RadixSlider.Root>
   );
 };
